@@ -8,60 +8,150 @@ struct TelaCarrosselView: View {
 
     var body: some View {
 
-        Group {
+        ZStack {
 
-            if viewModel.isLoading {
+            PokemonTypeBackground(type: tipo)
 
-                VStack(spacing: 16) {
+            VStack(spacing: 0) {
 
-                    ProgressView()
-                        .controlSize(.large)
+                HStack {
 
-                    Text("Carregando Pokémons...")
-                        .font(.headline)
-                }
+                    VStack(alignment: .leading, spacing: 3) {
 
-            } else if let error = viewModel.errorMessage {
+                        Text("POKÉDEX")
+                            .font(
+                                .system(
+                                    size: 30,
+                                    weight: .black
+                                )
+                            )
+                            .foregroundStyle(.white)
 
-                VStack(spacing: 16) {
+                        Text(
+                            "POKÉMON DO TIPO \(tipo.uppercased())"
+                        )
+                        .font(
+                            .system(
+                                size: 12,
+                                weight: .bold
+                            )
+                        )
+                        .foregroundStyle(.white.opacity(0.8))
+                    }
 
-                    Image(systemName: "exclamationmark.triangle.fill")
-                        .font(.largeTitle)
-                        .foregroundStyle(.red)
+                    Spacer()
 
-                    Text(error)
+                    VStack(spacing: 5) {
 
-                    Button("Tentar novamente") {
-                        Task {
-                            await viewModel.fetchPokemons(type: tipo)
+                        Circle()
+                            .fill(.red)
+                            .frame(width: 28, height: 28)
+                            .overlay(
+                                Circle()
+                                    .stroke(.white, lineWidth: 3)
+                            )
+
+                        HStack(spacing: 4) {
+
+                            Circle()
+                                .fill(.yellow)
+                                .frame(width: 7, height: 7)
+
+                            Circle()
+                                .fill(.green)
+                                .frame(width: 7, height: 7)
+
+                            Circle()
+                                .fill(.blue)
+                                .frame(width: 7, height: 7)
                         }
                     }
-                    .buttonStyle(.borderedProminent)
                 }
-                .padding()
+                .padding(.horizontal, 22)
+                .padding(.top, 10)
+                .padding(.bottom, 15)
 
-            } else {
+                if viewModel.isLoading {
 
-                ScrollView(.horizontal) {
+                    Spacer()
 
-                    LazyHStack(spacing: 20) {
+                    VStack(spacing: 20) {
 
-                        ForEach(viewModel.pokemons) { pokemon in
+                        ProgressView()
+                            .controlSize(.large)
+                            .tint(.white)
 
-                            NavigationLink {
-                                TelaDetalhesView(pokemon: pokemon)
-                            } label: {
+                        Text("PROCURANDO POKÉMON...")
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                    }
 
-                                PokemonCardView(pokemon: pokemon)
+                    Spacer()
+
+                } else if let error = viewModel.errorMessage {
+
+                    Spacer()
+
+                    VStack(spacing: 16) {
+
+                        Image(
+                            systemName:
+                                "exclamationmark.triangle.fill"
+                        )
+                        .font(.largeTitle)
+                        .foregroundStyle(.white)
+
+                        Text(error)
+                            .foregroundStyle(.white)
+
+                        Button("Tentar novamente") {
+                            Task {
+                                await viewModel.fetchPokemons(
+                                    type: tipo
+                                )
                             }
                         }
+                        .buttonStyle(.borderedProminent)
                     }
-                    .padding()
+
+                    Spacer()
+
+                } else {
+
+                    Spacer()
+
+                    ScrollView(.horizontal) {
+
+                        LazyHStack(spacing: 24) {
+
+                            ForEach(viewModel.pokemons) { pokemon in
+
+                                NavigationLink {
+
+                                    TelaDetalhesView(
+                                        pokemon: pokemon
+                                    )
+
+                                } label: {
+
+                                    PokemonCardView(
+                                        pokemon: pokemon,
+                                        type: tipo
+                                    )
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                        .padding(.horizontal, 24)
+                    }
+                    .scrollIndicators(.hidden)
+
+                    Spacer()
                 }
-                .scrollTargetBehavior(.viewAligned)
             }
         }
-        .navigationTitle(tipo.capitalized)
+        .navigationBarBackButtonHidden(false)
+        .toolbarColorScheme(.dark, for: .navigationBar)
         .task {
             await viewModel.fetchPokemons(type: tipo)
         }
@@ -71,63 +161,230 @@ struct TelaCarrosselView: View {
 struct PokemonCardView: View {
 
     let pokemon: Pokemon
+    let type: String
 
     var body: some View {
 
-        VStack(spacing: 12) {
-
-            Text("#\(pokemon.id)")
-                .font(.headline)
-                .foregroundStyle(.secondary)
-
-            AnimatedImage(
-                url: URL(
-                    string:
-                        pokemon.sprites.animated?.frontDefault
-                        ?? pokemon.sprites.frontDefault
-                        ?? ""
-                )
-            )
-            .frame(width: 220, height: 220)
-
-            Text(pokemon.name.capitalized)
-                .font(.title2)
-                .fontWeight(.bold)
+        VStack(spacing: 0) {
 
             HStack {
+
+                Text(
+                    "Nº \(String(format: "%03d", pokemon.id))"
+                )
+                .font(
+                    .system(
+                        size: 15,
+                        weight: .black,
+                        design: .monospaced
+                    )
+                )
+
+                Spacer()
+
+                Circle()
+                    .fill(.red)
+                    .frame(width: 14, height: 14)
+                    .overlay(
+                        Circle()
+                            .stroke(.black, lineWidth: 2)
+                    )
+            }
+            .padding(.horizontal, 18)
+            .padding(.top, 15)
+
+            ZStack {
+
+                Circle()
+                    .fill(.black.opacity(0.05))
+                    .frame(width: 275, height: 275)
+
+                Circle()
+                    .stroke(
+                        .black.opacity(0.1),
+                        lineWidth: 3
+                    )
+                    .frame(width: 275, height: 275)
+
+                AnimatedImage(
+                    url: URL(
+                        string:
+                            pokemon.sprites.animated?.frontDefault
+                            ?? pokemon.sprites.frontDefault
+                            ?? ""
+                    )
+                )
+                .frame(
+                    width: 270,
+                    height: 270
+                )
+            }
+
+            Spacer()
+
+            Text(pokemon.name.uppercased())
+                .font(
+                    .system(
+                        size: 26,
+                        weight: .black,
+                        design: .rounded
+                    )
+                )
+
+            HStack(spacing: 8) {
 
                 ForEach(
                     pokemon.types,
                     id: \.type.name
-                ) { type in
+                ) { pokemonType in
 
-                    Text(type.type.name.capitalized)
-                        .font(.caption)
-                        .fontWeight(.bold)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 5)
-                        .background(.blue)
-                        .foregroundStyle(.white)
-                        .clipShape(Capsule())
+                    Text(
+                        pokemonType.type.name.uppercased()
+                    )
+                    .font(
+                        .system(
+                            size: 10,
+                            weight: .black
+                        )
+                    )
+                    .padding(
+                        .horizontal,
+                        12
+                    )
+                    .padding(
+                        .vertical,
+                        6
+                    )
+                    .background(
+                        typeColor(
+                            pokemonType.type.name
+                        )
+                    )
+                    .foregroundStyle(.white)
+                    .clipShape(Capsule())
                 }
             }
+
+            Spacer()
+
+            HStack {
+
+                Text("VER DETALHES")
+
+                Image(
+                    systemName:
+                        "chevron.right"
+                )
+            }
+            .font(
+                .system(
+                    size: 12,
+                    weight: .black
+                )
+            )
+            .foregroundStyle(.white)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 12)
+            .background(.black)
         }
-        .frame(width: 280, height: 400)
+        .frame(
+            width: 320,
+            height: 500
+        )
         .background(.white)
         .clipShape(
             RoundedRectangle(
-                cornerRadius: 20
+                cornerRadius: 26
+            )
+        )
+        .overlay(
+            RoundedRectangle(
+                cornerRadius: 26
+            )
+            .stroke(
+                .black,
+                lineWidth: 5
             )
         )
         .shadow(
-            color: .black.opacity(0.15),
-            radius: 6
+            color: .black.opacity(0.35),
+            radius: 12,
+            y: 8
         )
+    }
+
+    private func typeColor(
+        _ type: String
+    ) -> Color {
+
+        switch type {
+
+        case "normal":
+            return .gray
+
+        case "fire":
+            return .red
+
+        case "water":
+            return .blue
+
+        case "electric":
+            return .yellow
+
+        case "grass":
+            return .green
+
+        case "ice":
+            return .cyan
+
+        case "fighting":
+            return .orange
+
+        case "poison":
+            return .purple
+
+        case "ground":
+            return .brown
+
+        case "flying":
+            return .indigo
+
+        case "psychic":
+            return .pink
+
+        case "bug":
+            return .mint
+
+        case "rock":
+            return .gray
+
+        case "ghost":
+            return .purple
+
+        case "dragon":
+            return .teal
+
+        case "dark":
+            return .black
+
+        case "steel":
+            return .gray
+
+        case "fairy":
+            return .pink
+
+        default:
+            return .gray
+        }
     }
 }
 
 #Preview {
+
     NavigationStack {
-        TelaCarrosselView(tipo: "fire")
+
+        TelaCarrosselView(
+            tipo: "fire"
+        )
     }
 }

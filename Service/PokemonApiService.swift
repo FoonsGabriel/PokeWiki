@@ -10,12 +10,12 @@ struct PokemonApiService {
             .appendingPathComponent("type")
             .appendingPathComponent(type)
 
-        let (data, response) = try await URLSession.shared.data(
+        let (data, httpResponse) = try await URLSession.shared.data(
             from: typeURL
         )
 
-        guard let httpResponse = response as? HTTPURLResponse,
-              httpResponse.statusCode == 200 else {
+        guard let response = httpResponse as? HTTPURLResponse,
+              response.statusCode == 200 else {
             throw URLError(.badServerResponse)
         }
 
@@ -24,14 +24,17 @@ struct PokemonApiService {
             from: data
         )
 
-        let firstPokemons = Array(
-            typeResponse.pokemon.prefix(10)
+        let randomPokemons = Array(
+            typeResponse.pokemon.shuffled().prefix(10)
         )
 
         var pokemons: [Pokemon] = []
 
-        for item in firstPokemons {
-            let pokemon = try await fetchPokemon(from: item.pokemon.url)
+        for item in randomPokemons {
+            let pokemon = try await fetchPokemon(
+                from: item.pokemon.url
+            )
+
             pokemons.append(pokemon)
         }
 
@@ -44,28 +47,28 @@ struct PokemonApiService {
             throw URLError(.badURL)
         }
 
-        let (data, response) = try await URLSession.shared.data(
+        let (data, httpResponse) = try await URLSession.shared.data(
             from: url
         )
 
-        guard let httpResponse = response as? HTTPURLResponse,
-              httpResponse.statusCode == 200 else {
+        guard let response = httpResponse as? HTTPURLResponse,
+              response.statusCode == 200 else {
             throw URLError(.badServerResponse)
         }
 
-        let response = try JSONDecoder().decode(
+        let pokemonResponse = try JSONDecoder().decode(
             PokemonApiResponse.self,
             from: data
         )
 
         return Pokemon(
-            id: response.id,
-            name: response.name,
-            height: response.height,
-            weight: response.weight,
-            types: response.types,
-            abilities: response.abilities,
-            sprites: response.sprites
+            id: pokemonResponse.id,
+            name: pokemonResponse.name,
+            height: pokemonResponse.height,
+            weight: pokemonResponse.weight,
+            types: pokemonResponse.types,
+            abilities: pokemonResponse.abilities,
+            sprites: pokemonResponse.sprites
         )
     }
 }
@@ -82,3 +85,4 @@ struct PokemonURL: Decodable {
     let name: String
     let url: String
 }
+

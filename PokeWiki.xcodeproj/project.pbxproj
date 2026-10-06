@@ -10,7 +10,6 @@
 		7A4F308F3075AFFD00A0FA72 /* PokemonApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4F30893075AFFD00A0FA72 /* PokemonApiService.swift */; };
 		7A4F30903075AFFD00A0FA72 /* PokemonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4F308D3075AFFD00A0FA72 /* PokemonViewModel.swift */; };
 		7A4F30913075AFFD00A0FA72 /* PokeWikiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4F30883075AFFD00A0FA72 /* PokeWikiApp.swift */; };
-		7A4F30923075AFFD00A0FA72 /* PokemonListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4F308B3075AFFD00A0FA72 /* PokemonListView.swift */; };
 		7A4F30933075AFFD00A0FA72 /* Pokemon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4F30863075AFFD00A0FA72 /* Pokemon.swift */; };
 		7A4F30943075AFFD00A0FA72 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4F30853075AFFD00A0FA72 /* ContentView.swift */; };
 		7A4F30953075AFFD00A0FA72 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A4F30843075AFFD00A0FA72 /* Assets.xcassets */; };
@@ -18,6 +17,7 @@
 		7A4F30993075B84700A0FA72 /* TelaInicialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4F30983075B81300A0FA72 /* TelaInicialView.swift */; };
 		7A4F309B3075B86C00A0FA72 /* TelaCarrosselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4F309A3075B85500A0FA72 /* TelaCarrosselView.swift */; };
 		7A4F309D3075B88700A0FA72 /* TelaDetalhesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4F309C3075B87600A0FA72 /* TelaDetalhesView.swift */; };
+		7A4F309F3075C12F00A0FA72 /* PokemonTypeBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4F309E3075C11F00A0FA72 /* PokemonTypeBackground.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,12 +26,12 @@
 		7A4F30863075AFFD00A0FA72 /* Pokemon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pokemon.swift; sourceTree = "<group>"; };
 		7A4F30883075AFFD00A0FA72 /* PokeWikiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokeWikiApp.swift; sourceTree = "<group>"; };
 		7A4F30893075AFFD00A0FA72 /* PokemonApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonApiService.swift; sourceTree = "<group>"; };
-		7A4F308B3075AFFD00A0FA72 /* PokemonListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonListView.swift; sourceTree = "<group>"; };
 		7A4F308D3075AFFD00A0FA72 /* PokemonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonViewModel.swift; sourceTree = "<group>"; };
 		7A4F30963075B5EF00A0FA72 /* AnimatedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedImage.swift; sourceTree = "<group>"; };
 		7A4F30983075B81300A0FA72 /* TelaInicialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelaInicialView.swift; sourceTree = "<group>"; };
 		7A4F309A3075B85500A0FA72 /* TelaCarrosselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelaCarrosselView.swift; sourceTree = "<group>"; };
 		7A4F309C3075B87600A0FA72 /* TelaDetalhesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelaDetalhesView.swift; sourceTree = "<group>"; };
+		7A4F309E3075C11F00A0FA72 /* PokemonTypeBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonTypeBackground.swift; sourceTree = "<group>"; };
 		7AE02556306C84D200719503 /* PokeWiki.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokeWiki.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -65,11 +65,11 @@
 		7A4F308C3075AFFD00A0FA72 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7A4F309E3075C11F00A0FA72 /* PokemonTypeBackground.swift */,
 				7A4F309C3075B87600A0FA72 /* TelaDetalhesView.swift */,
 				7A4F309A3075B85500A0FA72 /* TelaCarrosselView.swift */,
 				7A4F30983075B81300A0FA72 /* TelaInicialView.swift */,
 				7A4F30963075B5EF00A0FA72 /* AnimatedImage.swift */,
-				7A4F308B3075AFFD00A0FA72 /* PokemonListView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -180,8 +180,8 @@
 				7A4F30903075AFFD00A0FA72 /* PokemonViewModel.swift in Sources */,
 				7A4F30993075B84700A0FA72 /* TelaInicialView.swift in Sources */,
 				7A4F30913075AFFD00A0FA72 /* PokeWikiApp.swift in Sources */,
-				7A4F30923075AFFD00A0FA72 /* PokemonListView.swift in Sources */,
 				7A4F30973075B5FC00A0FA72 /* AnimatedImage.swift in Sources */,
+				7A4F309F3075C12F00A0FA72 /* PokemonTypeBackground.swift in Sources */,
 				7A4F30933075AFFD00A0FA72 /* Pokemon.swift in Sources */,
 				7A4F309B3075B86C00A0FA72 /* TelaCarrosselView.swift in Sources */,
 				7A4F309D3075B88700A0FA72 /* TelaDetalhesView.swift in Sources */,
