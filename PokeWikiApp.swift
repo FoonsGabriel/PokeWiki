@@ -1,10 +1,3 @@
-//
-//  PokeWikiApp.swift
-//  PokeWiki
-//
-//  Created by GABRIEL DE SOUZA FONSECA on 29/09/26.
-//
-
 import SwiftUI
 
 @main
@@ -16,6 +9,8 @@ struct PokeWikiApp: App {
             diskCapacity: 1024 * 1024 * 500,
             diskPath: "async_image_cache"
         )
+
+        URLCache.shared = urlCache
     }
 
     var body: some Scene {
