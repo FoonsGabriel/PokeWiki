@@ -1,35 +1,39 @@
 import SwiftUI
 
 struct Pokemon: Identifiable, Hashable {
-    let id: UUID
+    let id: Int
     let name: String
+    let height: Int
+    let weight: Int
     let types: [PokemonType]
+    let abilities: [PokemonAbility]
     let sprites: PokemonSprites
-
-    init(
-        id: UUID = UUID(),
-        name: String,
-        types: [PokemonType],
-        sprites: PokemonSprites
-    ) {
-        self.id = id
-        self.name = name
-        self.types = types
-        self.sprites = sprites
-    }
 }
 
 struct PokemonApiResponse: Decodable {
+    let id: Int
     let name: String
+    let height: Int
+    let weight: Int
     let types: [PokemonType]
+    let abilities: [PokemonAbility]
     let sprites: PokemonSprites
 }
 
 struct PokemonType: Decodable, Hashable {
+    let slot: Int
     let type: TypeInfo
 }
 
 struct TypeInfo: Decodable, Hashable {
+    let name: String
+}
+
+struct PokemonAbility: Decodable, Hashable {
+    let ability: AbilityInfo
+}
+
+struct AbilityInfo: Decodable, Hashable {
     let name: String
 }
 
@@ -54,10 +58,6 @@ struct PokemonSprites: Decodable, Hashable {
         case animated
     }
 
-    enum AnimatedKeys: String, CodingKey {
-        case frontDefault = "front_default"
-    }
-
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -78,7 +78,7 @@ struct PokemonSprites: Decodable, Hashable {
             keyedBy: BlackWhiteKeys.self,
             forKey: .blackWhite
         ) {
-            animated = try blackWhite.decodeIfPresent(
+            animated = try? blackWhite.decodeIfPresent(
                 AnimatedSprites.self,
                 forKey: .animated
             )

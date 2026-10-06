@@ -14,6 +14,7 @@ struct AnimatedImage: UIViewRepresentable {
     }
 
     func updateUIView(_ webView: WKWebView, context: Context) {
+
         guard let url else {
             return
         }

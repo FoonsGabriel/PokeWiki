@@ -3,23 +3,25 @@ import Observation
 
 @Observable
 final class PokemonViewModel {
+
     var pokemons: [Pokemon] = []
     var isLoading = false
-    var errorMessage: String? = nil
+    var errorMessage: String?
 
     private let service = PokemonApiService()
 
-    func fetchPokemons() async {
+    func fetchPokemons(type: String) async {
+
         isLoading = true
         errorMessage = nil
-        do {
-            let fetchPokemons = try await service.fetchPokemons()
+        pokemons = []
 
-            self.pokemons = fetchPokemons
-            self.isLoading = false
+        do {
+            pokemons = try await service.fetchPokemonsByType(type)
+            isLoading = false
         } catch {
-            self.errorMessage = "Não foi possível carregar os Pokemons: \(error.localizedDescription)"
-            self.isLoading = false
+            errorMessage = "Não foi possível carregar os Pokémons."
+            isLoading = false
         }
     }
 }

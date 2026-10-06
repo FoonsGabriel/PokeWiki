@@ -15,7 +15,7 @@ struct PokeWikiApp: App {
 
     var body: some Scene {
         WindowGroup {
-            PokemonListView()
+            TelaInicialView()
         }
     }
 }
